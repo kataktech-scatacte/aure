@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "aure nest app",
+  "extends": "./base.json",
+  "compilerOptions": {
+    // TypeScript 6 removed `moduleResolution: node10` outright, so the old
+    // commonjs+node10 pairing is gone. apps/api has no "type": "module", so
+    // node20 resolution still emits CommonJS, which is what Nest wants.
+    "module": "node20",
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+
+    "declaration": false,
+    "declarationMap": false,
+
+    // DO NOT set this to true. With verbatimModuleSyntax, `import type { Foo }`
+    // is fully erased, so emitDecoratorMetadata emits `Object` instead of `Foo`
+    // and Nest throws "can't resolve dependencies of X (?)" AT RUNTIME with no
+    // compile error. Also keep @typescript-eslint/consistent-type-imports off
+    // for apps/api so autofix cannot reintroduce the problem.
+    "verbatimModuleSyntax": false,
+
+    // Be explicit. Default typeRoots resolve against the directory of the
+    // config that DECLARES them (packages/config-ts), which has no
+    // node_modules/@types, so ambient node globals go missing.
+    "types": ["node"]
+  }
+}

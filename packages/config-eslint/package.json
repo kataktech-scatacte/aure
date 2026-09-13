@@ -1,0 +1,21 @@
+{
+  "name": "@aure/config-eslint",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base": "./base.js",
+    "./nest": "./nest.js",
+    "./start": "./start.js",
+    "./react-library": "./react-library.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "catalog:",
+    "@tanstack/eslint-plugin-router": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-turbo": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "globals": "catalog:",
+    "typescript-eslint": "catalog:"
+  }
+}

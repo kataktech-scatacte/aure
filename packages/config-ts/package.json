@@ -1,0 +1,6 @@
+{
+  "name": "@aure/config-ts",
+  "version": "0.0.0",
+  "private": true,
+  "files": ["base.json", "library.json", "react-library.json", "nest.json", "start.json"]
+}

@@ -1,0 +1,5 @@
+{
+  "extends": "@aure/config-ts/start.json",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", ".output", ".tanstack", "dist"]
+}

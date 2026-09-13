@@ -1,0 +1,15 @@
+{
+  // Based on the library config for its strictness and module settings, but nothing
+  // here is built: Playwright transpiles the specs itself.
+  "extends": "@aure/config-ts/library.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    // DOM: callbacks passed to page.evaluate / waitForFunction run in the browser.
+    "lib": ["ES2023", "DOM"],
+    // Specs and setup run in Node (process, child_process); no other ambient types.
+    "types": ["node"]
+  },
+  "include": ["*.ts", "tests"]
+}

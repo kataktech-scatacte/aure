@@ -1,0 +1,68 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Single source of truth for every shared version.
+# Consume with "catalog:" in each package.json.
+catalog:
+  # Toolchain --- typescript is pinned to 6.0.x, NOT 7.x:
+  #   @nestjs/cli@12.0.0 depends on typescript ~6.0.2
+  #   typescript-eslint@8.70.0 peers on typescript >=4.8.4 <6.1.0
+  typescript: 6.0.3
+  turbo: 2.10.12
+  "@types/node": 22.20.2
+
+  # Lint
+  eslint: 10.10.0
+  typescript-eslint: 8.70.0
+  "@eslint/js": 10.0.1
+  eslint-config-turbo: 2.10.12
+  globals: 17.12.0
+  eslint-plugin-react-hooks: 7.1.1
+  "@tanstack/eslint-plugin-router": 1.162.0
+
+  # Apps (TanStack Start on Vite)
+  "@tanstack/react-start": 1.168.52
+  "@tanstack/react-router": 1.170.35
+  vite: 8.3.0
+  "@vitejs/plugin-react": 6.1.1
+  # Nitro 3 only ships date-stamped betas; this is what TanStack's own
+  # examples use for the Node server output.
+  nitro: 3.0.260903-beta
+
+  # Contracts
+  zod: 4.6.2
+
+  # Database: raw node-postgres (no ORM, by decision)
+  pg: 8.23.0
+  "@types/pg": 8.23.1
+
+  # Build
+  tsup: 8.5.1
+
+  # E2E
+  "@playwright/test": 1.63.0
+
+# pnpm blocks postinstall scripts by default. NOTE: pnpm 12 replaced the
+# old `onlyBuiltDependencies` list with this `allowBuilds` map. Without these, native
+# binaries are silently never built and the symptoms look unrelated:
+# "Bindings not found" from swc, esbuild crashes.
+allowBuilds:
+  "@swc/core": true
+  esbuild: true
+
+# Supply-chain hygiene: never resolve anything published in the last 24h.
+minimumReleaseAge: 1440
+
+# Fail install when any dependency's engines.node excludes the running Node.
+# NOTE: this MUST live here. pnpm 12 silently ignores engine-strict in .npmrc.
+# It checks dependencies, not the root package.json. The root engines range
+# mirrors the strictest dependency: @nestjs/cli 12 pins @angular-devkit 22.x,
+# which requires Node ^22.22.3 || ^24.15.0 || >=26.
+engineStrict: true
+
+# Hard backstop against a second TypeScript resolving anywhere in the tree.
+# NOTE: this MUST live here, not in package.json. pnpm 12 no longer reads the
+# "pnpm" field in package.json and ignores pnpm.overrides silently.
+overrides:
+  typescript: 6.0.3

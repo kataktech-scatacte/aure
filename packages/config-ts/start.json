@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "aure tanstack start app",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "types": ["vite/client"]
+  }
+}

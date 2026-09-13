@@ -1,0 +1,46 @@
+{
+  "skill_name": "upgrade-dependency",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "upgrade typescript to 7",
+      "expected_output": "Finds 7.0.2 is mature but discovers @nestjs/cli (~6.0.2) and typescript-eslint (<6.1.0) cap TypeScript, checks whether newer mature releases lift those caps, and either upgrades everything consistently (catalog + overrides) or stops and reports the blockers without forcing it. Build/typecheck/lint verified if changed.",
+      "files": [],
+      "expectations": [
+        "Names at least one real TypeScript peer cap (@nestjs/cli ~6.0.x or typescript-eslint <6.1.0) with its range",
+        "Every pinned version in the final repo was published more than 24h before the run (age gate respected)",
+        "Does not bypass peer caps: if typescript ends at 7.x, `pnpm peers check` passes; no --force / peer-ignore settings added",
+        "Final repo is consistent: TypeScript catalog pin and override agree",
+        "Summary tells the user clearly whether TypeScript was upgraded and, if not, what blocks it"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "bump vite and the react plugin to whatever's newest, we're on the tanstack start app",
+      "expected_output": "Uses the age-gated newest versions (not versions <24h old), updates the catalog entries, checks @vitejs/plugin-react's vite peer and TanStack Start compatibility, runs install + peers check + build/typecheck/lint with --force, and reports old -> new (or that they're already current).",
+      "files": [],
+      "expectations": [
+        "Every pinned version in the final repo was published more than 24h before the run (age gate respected)",
+        "vite and @vitejs/plugin-react catalog pins are the newest mature stable versions (or unchanged if already newest)",
+        "Checked @vitejs/plugin-react's vite peer range (or peers check) and reports compatibility",
+        "Ran install plus build, typecheck and lint in a way that can't be satisfied by Turbo cache (--force or fresh), and they passed",
+        "Lockfile resolves a single vite version",
+        "Summary reports old -> new versions (or that they were already current)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "can we update nest to the latest? apps/api is on 12.0.1",
+      "expected_output": "Identifies all @nestjs/* direct pins in apps/api/package.json (common, core, platform-express, cli), moves them together to the newest mature versions, checks rxjs/reflect-metadata peers and TypeScript cap from @nestjs/cli, verifies build and hits or reasons about /api/health, and reports results.",
+      "files": [],
+      "expectations": [
+        "Every pinned version in the final repo was published more than 24h before the run (age gate respected)",
+        "@nestjs/common, @nestjs/core and @nestjs/platform-express end on the same version, and @nestjs/cli was considered",
+        "Checked @nestjs/cli's TypeScript range or Nest peer deps against the pinned TypeScript 6.0.3",
+        "Ran build, typecheck and lint for the api in a way that can't be satisfied by Turbo cache, and they passed",
+        "Did a runtime check of the API (started it and hit /api/health) or explicitly explained why not",
+        "Summary reports old -> new versions (or that 12.0.1 is already the newest mature release)"
+      ]
+    }
+  ]
+}

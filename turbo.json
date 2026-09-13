@@ -1,0 +1,91 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "globalDependencies": [
+    "pnpm-workspace.yaml",
+    "packages/config-ts/*.json"
+  ],
+  "globalEnv": [
+    "NODE_ENV"
+  ],
+  "globalPassThroughEnv": [
+    "CI",
+    "GITHUB_ACTIONS",
+    "TZ",
+    "TERM",
+    "COREPACK_*",
+    "E2E_API_URL",
+    "E2E_WEB_URL",
+    "PLAYWRIGHT_CHANNEL",
+    "STACK_PG_PORT",
+    "STACK_API_PORT",
+    "STACK_WEB_PORT",
+    "DATABASE_URL",
+    "PLAYWRIGHT_BROWSERS_PATH",
+    "E2E_ALLOW_EXTERNAL_DB"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.test.ts",
+        "!**/*.spec.ts",
+        "!**/*.md"
+      ],
+      "outputs": [
+        "dist/**",
+        ".output/**"
+      ],
+      "env": [
+        "NODE_ENV"
+      ]
+    },
+    "typecheck": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ]
+    },
+    "@aure/e2e#test": {
+      "dependsOn": [
+        "^build",
+        "@aure/api#build",
+        "@aure/web#build"
+      ],
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "@aure/api#dev": {
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "PORT"
+      ]
+    }
+  }
+}

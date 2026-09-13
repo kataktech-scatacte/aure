@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.output/
+.tanstack/
+out/
+.turbo/
+coverage/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+playwright-report/
+test-results/
+.stack/

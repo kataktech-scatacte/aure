@@ -1,0 +1,31 @@
+{
+  "name": "@aure/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite dev",
+    "start": "node .output/server/index.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@tanstack/react-router": "catalog:",
+    "@tanstack/react-start": "catalog:",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@aure/config-eslint": "workspace:*",
+    "@aure/config-ts": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "catalog:",
+    "eslint": "catalog:",
+    "nitro": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}
